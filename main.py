@@ -1,175 +1,1 @@
-from tkinter import *
-
-import tkintermapview
-
-sports_facilities: list = []
-clients: list = []
-workers: list = []
-
-
-class sports_facilities:
-    def _init_(self, sports_facilities_type, sports_facilities_location, ):
-        self.sports_facilities_type = sports_facilities_type
-
-        self.sports_facilities_location = sports_facilities_location
-
-        self.coordinates = self.get_coordinates()
-        # self.marker=map_widget.set_marker(self.coordinates[0],self.coordinates[1])
-
-    def get_coordinates(self) -> list:
-        import requests
-        from bs4 import BeautifulSoup
-        url = f"https://pl.wikipedia.org/wiki/{self.sports_facilities_location}"
-        response = requests.get(url).text
-        response_html = BeautifulSoup(response, "html.parser")
-        longitude = float(response_html.select(".longitude")[1].text.replace(",", "."))
-        latitude = float(response_html.select(".latitude")[1].text.replace(",", "."))
-        print(longitude)
-        print(latitude)
-        return [latitude, longitude]
-
-
-class Client:
-    def _init_(self, client_name, client_illness, client_location1, client_location2):
-        self.client_name = client_name
-        self.client_illness = client_illness
-        self.client_location1 = client_location1
-        self.client_location2 = client_location2
-        self.coordinates = self.get_coordinates()
-        # self.marker=map_widget.set_marker(self.coordinates[0],self.coordinates[1])
-
-    def get_coordinates(self) -> list:
-        import requests
-        from bs4 import BeautifulSoup
-        url = f"https://pl.wikipedia.org/wiki/{self.client_location2}"
-        response = requests.get(url).text
-        response_html = BeautifulSoup(response, "html.parser")
-        longitude = float(response_html.select(".longitude")[1].text.replace(",", "."))
-        latitude = float(response_html.select(".latitude")[1].text.replace(",", "."))
-        print(longitude)
-        print(latitude)
-        return [latitude, longitude]
-
-
-class Workers:
-    def _init_(self, worker_name, worker_pharmacy, worker_location):
-        self.worker_name = worker_name
-        self.worker_pharmacy = worker_pharmacy
-        self.worker_location = worker_location
-
-        self.coordinates = self.get_coordinates()
-        # self.marker=map_widget.set_marker(self.coordinates[0],self.coordinates[1])
-
-    def get_coordinates(self) -> list:
-        import requests
-        from bs4 import BeautifulSoup
-        url = f"https://pl.wikipedia.org/wiki/{self.worker_location}"
-        response = requests.get(url).text
-        response_html = BeautifulSoup(response, "html.parser")
-        longitude = float(response_html.select(".longitude")[1].text.replace(",", "."))
-        latitude = float(response_html.select(".latitude")[1].text.replace(",", "."))
-        print(longitude)
-        print(latitude)
-        return [latitude, longitude]
-
-
-root = Tk()
-root.geometry("1200x760")
-root.title("Map Book MJ")
-
-ramka_lista_obiektow = Frame(root)
-ramka_formularz = Frame(root)
-ramka_szczegoly_obiektow = Frame(root)
-ramka_mapa = Frame(root)
-
-ramka_lista_obiektow.grid(row=0, column=0)
-ramka_formularz.grid(row=0, column=1)
-ramka_szczegoly_obiektow.grid(row=1, column=0, columnspan=2)
-ramka_mapa.grid(row=2, column=0, columnspan=2)
-
-# ramka_lista_obiektow
-label_lista_obiektow=Label(ramka_lista_obiektow, text="Lista użytkowników")
-label_lista_obiektow.grid(row=0, column=0,columnspan=2)
-listbox_lista_obiketow=Listbox(ramka_lista_obiektow, width=40, height=10)
-listbox_lista_obiketow.grid(row=1, column=0, columnspan=3)
-button_pokaz_szczegoly_obiektu=Button(ramka_lista_obiektow, text='Pokaż szczegóły')
-button_pokaz_szczegoly_obiektu.grid(row=2, column=0)
-button_usun_obiekt=Button(ramka_lista_obiektow, text='Usuń obiekt')
-button_usun_obiekt.grid(row=2, column=1)
-button_edytuj_obiekt=Button(ramka_lista_obiektow, text='Edytuj obiekt')
-button_edytuj_obiekt.grid(row=2, column=2)
-
-
-label_lista_obiektow_klient=Label(ramka_lista_obiektow, text="Lista użytkowników")
-label_lista_obiektow_klient.grid(row=0, column=3,columnspan=2)
-listbox_lista_obiektow_klient=Listbox(ramka_lista_obiektow, width=40, height=10)
-listbox_lista_obiektow_klient.grid(row=1, column=3, columnspan=3)
-button_pokaz_szczegoly_obiektu_klient=Button(ramka_lista_obiektow, text='Pokaż szczegóły')
-button_pokaz_szczegoly_obiektu_klient.grid(row=2, column=3)
-button_usun_obiekt_klient=Button(ramka_lista_obiektow, text='Usuń obiekt')
-button_usun_obiekt_klient.grid(row=2, column=4)
-button_edytuj_obiekt_klient=Button(ramka_lista_obiektow, text='Edytuj obiekt')
-button_edytuj_obiekt_klient.grid(row=2, column=5)
-
-label_lista_obiektow_klient=Label(ramka_lista_obiektow, text="Lista użytkowników")
-label_lista_obiektow_klient.grid(row=0, column=6,columnspan=2)
-listbox_lista_obiektow_klient=Listbox(ramka_lista_obiektow, width=40, height=10)
-listbox_lista_obiektow_klient.grid(row=1, column=6, columnspan=3)
-button_pokaz_szczegoly_obiektu_klient=Button(ramka_lista_obiektow, text='Pokaż szczegóły')
-button_pokaz_szczegoly_obiektu_klient.grid(row=2, column=6)
-button_usun_obiekt_klient=Button(ramka_lista_obiektow, text='Usuń obiekt')
-button_usun_obiekt_klient.grid(row=2, column=7)
-button_edytuj_obiekt_klient=Button(ramka_lista_obiektow, text='Edytuj obiekt')
-button_edytuj_obiekt_klient.grid(row=2, column=8)
-
-# ramka_formularz
-label_formularz = Label(ramka_formularz, text="Formularz")
-label_formularz.grid(row=0, column=0, columnspan=2)
-label_name = Label(ramka_formularz, text="Imię:")
-label_name.grid(row=1, column=0, sticky=W)
-label_surname = Label(ramka_formularz, text="Nazwisko:")
-label_surname.grid(row=2, column=0, sticky=W)
-label_location = Label(ramka_formularz, text="Miejscowość:")
-label_location.grid(row=3, column=0, sticky=W)
-label_posts = Label(ramka_formularz, text="Postów:")
-label_posts.grid(row=4, column=0, sticky=W)
-
-entry_name = Entry(ramka_formularz)
-entry_name.grid(row=1, column=1)
-entry_surname = Entry(ramka_formularz)
-entry_surname.grid(row=2, column=1)
-entry_location = Entry(ramka_formularz)
-entry_location.grid(row=3, column=1)
-entry_posts = Entry(ramka_formularz)
-entry_posts.grid(row=4, column=1)
-
-button_dodaj_obiekt = Button(ramka_formularz, text='Dodaj obiekt')
-button_dodaj_obiekt.grid(row=5, column=0, columnspan=2)
-
-# ramka_szczegoly_obiektow
-label_szczegoly_obiektow = Label(ramka_szczegoly_obiektow, text="Szczegoly obiektu:")
-label_szczegoly_obiektow.grid(row=0, column=0)
-label_szczegoly_name = Label(ramka_szczegoly_obiektow, text="Imię:")
-label_szczegoly_name.grid(row=1, column=0)
-label_szczegoly_name_wartosc = Label(ramka_szczegoly_obiektow, text="....")
-label_szczegoly_name_wartosc.grid(row=1, column=1)
-label_szczegoly_surname = Label(ramka_szczegoly_obiektow, text="Nazwisko:")
-label_szczegoly_surname.grid(row=1, column=2)
-label_szczegoly_surname_wartosc = Label(ramka_szczegoly_obiektow, text="....")
-label_szczegoly_surname_wartosc.grid(row=1, column=3)
-label_szczegoly_location = Label(ramka_szczegoly_obiektow, text="Miejscowość:")
-label_szczegoly_location.grid(row=1, column=4)
-label_szczegoly_location_wartosc = Label(ramka_szczegoly_obiektow, text="....")
-label_szczegoly_location_wartosc.grid(row=1, column=5)
-label_szczegoly_posts = Label(ramka_szczegoly_obiektow, text="Posty:")
-label_szczegoly_posts.grid(row=1, column=6)
-label_szczegoly_posts_wartosc = Label(ramka_szczegoly_obiektow, text="....")
-label_szczegoly_posts_wartosc.grid(row=1, column=7)
-
-# ramka_mapa
-map_widget = tkintermapview.TkinterMapView(ramka_mapa, width=1200, height=500, corner_radius=5)
-map_widget.grid(row=0, column=0, columnspan=2)
-map_widget.set_position(52.23, 21.0)
-map_widget.set_zoom(6)
-
-root.mainloop()
+from tkinter import *import tkintermapviewsport_facilities: list = []clients: list = []workers: list = []class SportsFacilities:    def __init__(self, sports_facilities_type, sports_facilities_location):        self.sports_facilities_type = sports_facilities_type        self.sports_facilities_location = sports_facilities_location        self.coordinates = self.get_coordinates()        self.clients = []        self.workers = []    def get_coordinates(self) -> list:        import requests        from bs4 import BeautifulSoup        url = f"https://pl.wikipedia.org/wiki/{self.sports_facilities_location}"        response = requests.get(url).text        response_html = BeautifulSoup(response, "html.parser")        longitude = float(response_html.select(".longitude")[1].text.replace(",", "."))        latitude = float(response_html.select(".latitude")[1].text.replace(",", "."))        print(longitude)        print(latitude)        return [latitude, longitude]class Client:    def __init__(self, client_name, client_illness, client_location1, client_location2):        self.client_name = client_name        self.client_illness = client_illness        self.client_location1 = client_location1        self.client_location2 = client_location2        self.coordinates = self.get_coordinates()        # self.marker=map_widget.set_marker(self.coordinates[0],self.coordinates[1])    def get_coordinates(self) -> list:        import requests        from bs4 import BeautifulSoup        url = f"https://pl.wikipedia.org/wiki/{self.client_location2}"        response = requests.get(url).text        response_html = BeautifulSoup(response, "html.parser")        longitude = float(response_html.select(".longitude")[1].text.replace(",", "."))        latitude = float(response_html.select(".latitude")[1].text.replace(",", "."))        print(longitude)        print(latitude)        return [latitude, longitude]class Workers:    def __init__(self, worker_name, worker_pharmacy, worker_location):        self.worker_name = worker_name        self.worker_pharmacy = worker_pharmacy        self.worker_location = worker_location        self.coordinates = self.get_coordinates()        # self.marker=map_widget.set_marker(self.coordinates[0],self.coordinates[1])    def get_coordinates(self) -> list:        import requests        from bs4 import BeautifulSoup        url = f"https://pl.wikipedia.org/wiki/{self.worker_location}"        response = requests.get(url).text        response_html = BeautifulSoup(response, "html.parser")        longitude = float(response_html.select(".longitude")[1].text.replace(",", "."))        latitude = float(response_html.select(".latitude")[1].text.replace(",", "."))        print(longitude)        print(latitude)        return [latitude, longitude]def pokaz_wszystkie_kompleksy_sportowe():    map_widget.set_zoom(6)    map_widget.delete_all_marker()    for facility in sport_facilities:        lat, lon = facility.coordinates        map_widget.set_marker(lat, lon, text=f"Obiekt: {facility.sports_facilities_type}")def pokaz_wszystkich_pracownikow():    map_widget.set_zoom(6)    map_widget.delete_all_marker()    for worker in workers:        lat, lon = worker.coordinates        map_widget.set_marker(lat, lon, text=f"Pracownik: {worker.worker_name}")def pokaz_klientow_kompleksu(facility):    map_widget.set_zoom(6)    map_widget.delete_all_marker()    for client in facility.clients:        lat, lon = client.coordinates        map_widget.set_marker(lat, lon, text=f"Klient: {client.client_name}")def pokaz_pracownikow_kompleksu(facility):    map_widget.set_zoom(6)    map_widget.delete_all_marker()    for worker in facility.workers:        lat, lon = worker.coordinates        map_widget.set_marker(lat, lon, text=f"Pracownik: {worker.worker_name}")def pokaz_klientow_i_pracownikow_kompleksu(facility):    map_widget.set_zoom(6)    map_widget.delete_all_marker()    for client in facility.clients:        lat, lon = client.coordinates        map_widget.set_marker(lat, lon, text=f"Klient: {client.client_name}")    for worker in facility.workers:        lat, lon = worker.coordinates        map_widget.set_marker(lat, lon, text=f"Pracownik: {worker.worker_name}")def dodaj_element():    imie = entry_name.get()    nazwisko = entry_surname.get()    miasto = entry_location.get()    if form_mode.get() == "obiekt":        if not imie or not miasto:            print("Uzupełnij dane obiektu.")            return        nowy = SportsFacilities(imie, miasto)        sport_facilities.append(nowy)        listbox_facilities.insert(END, nowy.sports_facilities_type)    elif form_mode.get() == "klient":        if not imie or not nazwisko or not miasto:            print("Uzupełnij dane klienta.")            return        nowy = Client(imie, nazwisko, miasto, miasto)        clients.append(nowy)        listbox_clients.insert(END, nowy.client_name)    elif form_mode.get() == "pracownik":        if not imie or not nazwisko or not miasto:            print("Uzupełnij dane pracownika.")            return        nowy = Workers(imie, nazwisko, miasto)        workers.append(nowy)        listbox_workers.insert(END, nowy.worker_name)    map_widget.delete_all_marker()    pokaz_wszystkie_kompleksy_sportowe()    pokaz_wszystkich_pracownikow()def usun_obiekt():    zaznaczone = listbox_facilities.curselection()    if not zaznaczone:        print("Nie zaznaczono obiektu do usunięcia.")        return    index = zaznaczone[0]    del sport_facilities[index]    listbox_facilities.delete(index)    map_widget.delete_all_marker()    pokaz_wszystkie_kompleksy_sportowe() def usun_klienta():        zaznaczone = listbox_clients.curselection()        if zaznaczone:            index = zaznaczone[0]            del clients[index]            listbox_clients.delete(index)            map_widget.delete_all_marker()            pokaz_wszystkich_pracownikow() def usun_pracownika():        zaznaczone = listbox_workers.curselection()        if zaznaczone:            index = zaznaczone[0]            del workers[index]            listbox_workers.delete(index)            map_widget.delete_all_marker()            pokaz_wszystkich_pracownikow()def edytuj_obiekt():    zaznaczone = listbox_facilities.curselection()    if zaznaczone:        index = zaznaczone[0]        typ = entry_name.get()        miasto = entry_location.get()        if not typ or not miasto:            print("Uzupełnij wszystkie pola!")            return        try:            nowy = SportsFacilities(typ, miasto)            sport_facilities[index] = nowy            listbox_facilities.delete(index)            listbox_facilities.insert(index, nowy.sports_facilities_type)            pokaz_wszystkie_kompleksy_sportowe()  # <- TO DODAJ            print(f"Zaktualizowano obiekt na: {typ} w {miasto}")        except Exception as e:            print(f"Błąd przy edycji: {e}")def edytuj_klienta():    zaznaczone = listbox_clients.curselection()    if zaznaczone:        index = zaznaczone[0]        imie = entry_name.get()        choroba = entry_surname.get()        miasto = entry_location.get()        nowy = Client(imie, choroba, miasto, miasto)        clients[index] = nowy        listbox_clients.delete(index)        listbox_clients.insert(index, nowy.client_name)def edytuj_pracownika():    zaznaczone = listbox_workers.curselection()    if zaznaczone:        index = zaznaczone[0]        imie = entry_name.get()        apteka = entry_surname.get()        miasto = entry_location.get()        nowy = Workers(imie, apteka, miasto)        workers[index] = nowy        listbox_workers.delete(index)        listbox_workers.insert(index, nowy.worker_name)form_mode = StringVar()form_mode.set("obiekt")root = Tk()root.geometry("1200x760")root.title("Map Book MJ")ramka_lista_obiektow = Frame(root)ramka_formularz = Frame(root)ramka_szczegoly_obiektow = Frame(root)ramka_mapa = Frame(root)ramka_lista_obiektow.grid(row=0, column=0)ramka_formularz.grid(row=0, column=1)ramka_szczegoly_obiektow.grid(row=1, column=0, columnspan=2)ramka_mapa.grid(row=2, column=0, columnspan=2)# ramka_lista_obiektowlabel_lista_facilities = Label(ramka_lista_obiektow, text="Obiekty sportowe")label_lista_facilities.grid(row=0, column=0, columnspan=2)listbox_facilities = Listbox(ramka_lista_obiektow, width=40, height=10)listbox_facilities.grid(row=1, column=0, columnspan=3)button_pokaz_facility = Button(ramka_lista_obiektow, text='Pokaż szczegóły')button_pokaz_facility.grid(row=2, column=0)button_usun_facility = Button(ramka_lista_obiektow, text='Usuń obiekt', command=usun_obiekt)button_usun_facility.grid(row=2, column=1)button_edytuj_facility = Button(ramka_lista_obiektow, text='Edytuj obiekt', command=edytuj_obiekt)button_edytuj_facility.grid(row=2, column=2)label_lista_klients = Label(ramka_lista_obiektow, text="Klienci")label_lista_klients.grid(row=0, column=3, columnspan=2)listbox_clients = Listbox(ramka_lista_obiektow, width=40, height=10)listbox_clients.grid(row=1, column=3, columnspan=3)button_pokaz_klient = Button(ramka_lista_obiektow, text='Pokaż szczegóły')button_pokaz_klient.grid(row=2, column=3)button_usun_klient = Button(ramka_lista_obiektow, text='Usuń obiekt', command=usun_klienta)button_usun_klient.grid(row=2, column=4)button_edytuj_klient = Button(ramka_lista_obiektow, text="Edytuj klienta", command=edytuj_klienta)button_edytuj_klient.grid(row=2, column=5)label_lista_workers = Label(ramka_lista_obiektow, text="Pracownicy")label_lista_workers.grid(row=0, column=6, columnspan=2)listbox_workers = Listbox(ramka_lista_obiektow, width=40, height=10)listbox_workers.grid(row=1, column=6, columnspan=3)button_pokaz_worker = Button(ramka_lista_obiektow, text='Pokaż szczegóły')button_pokaz_worker.grid(row=2, column=6)button_usun_worker = Button(ramka_lista_obiektow, text='Usuń obiekt')button_usun_worker.grid(row=2, column=7)button_edytuj_pracownik = Button(ramka_lista_obiektow, text="Edytuj pracownika", command=edytuj_pracownika)button_edytuj_pracownik.grid(row=2, column=8)label_name = Label(ramka_formularz, text="Typ obiektu:")label_name.grid(row=1, column=0, sticky=W)label_location = Label(ramka_formularz, text="Miasto:")label_location.grid(row=2, column=0, sticky=W)entry_name = Entry(ramka_formularz)entry_name.grid(row=1, column=1)entry_location = Entry(ramka_formularz)entry_location.grid(row=2, column=1)button_dodaj_obiekt = Button(ramka_formularz, text='Dodaj', command=dodaj_element)button_dodaj_obiekt.grid(row=5, column=0, columnspan=2)button_mode_client = Button(ramka_formularz, text='Tryb: Klient', command=lambda: form_mode.set("klient"))button_mode_client.grid(row=6, column=0)button_mode_worker = Button(ramka_formularz, text='Tryb: Pracownik', command=lambda: form_mode.set("pracownik"))button_mode_worker.grid(row=6, column=1)button_mode_obiekt = Button(ramka_formularz, text='Tryb: Obiekt', command=lambda: form_mode.set("obiekt"))button_mode_obiekt.grid(row=6, column=2)# ramka_szczegoly_obiektowlabel_szczegoly_obiektow = Label(ramka_szczegoly_obiektow, text="Szczegoly obiektu:")label_szczegoly_obiektow.grid(row=0, column=0)label_szczegoly_name = Label(ramka_szczegoly_obiektow, text="Imię:")label_szczegoly_name.grid(row=1, column=0)label_szczegoly_name_wartosc = Label(ramka_szczegoly_obiektow, text="....")label_szczegoly_name_wartosc.grid(row=1, column=1)label_szczegoly_surname = Label(ramka_szczegoly_obiektow, text="Nazwisko:")label_szczegoly_surname.grid(row=1, column=2)label_szczegoly_surname_wartosc = Label(ramka_szczegoly_obiektow, text="....")label_szczegoly_surname_wartosc.grid(row=1, column=3)label_szczegoly_location = Label(ramka_szczegoly_obiektow, text="Miejscowość:")label_szczegoly_location.grid(row=1, column=4)label_szczegoly_location_wartosc = Label(ramka_szczegoly_obiektow, text="....")label_szczegoly_location_wartosc.grid(row=1, column=5)label_szczegoly_posts = Label(ramka_szczegoly_obiektow, text="Posty:")label_szczegoly_posts.grid(row=1, column=6)label_szczegoly_posts_wartosc = Label(ramka_szczegoly_obiektow, text="....")label_szczegoly_posts_wartosc.grid(row=1, column=7)# ramka_mapamap_widget = tkintermapview.TkinterMapView(ramka_mapa, width=1200, height=500, corner_radius=5)map_widget.grid(row=0, column=0, columnspan=2)button_map_facilities = Button(ramka_mapa, text="Mapa obiektów", command=pokaz_wszystkie_kompleksy_sportowe)button_map_facilities.grid(row=1, column=0, sticky=W)button_map_workers = Button(ramka_mapa, text="Mapa pracowników", command=pokaz_wszystkich_pracownikow)button_map_workers.grid(row=1, column=1, sticky=W)map_widget.set_position(52.23, 21.0)map_widget.set_zoom(6)def klikniecie_na_obiekcie(event):    zaznaczone = listbox_facilities.curselection()    if zaznaczone:        index = zaznaczone[0]        facility = sport_facilities[index]        pokaz_klientow_i_pracownikow_kompleksu(facility)        listbox_facilities.bind("<Double-Button-1>", klikniecie_na_obiekcie)def klikniecie_na_kliencie(event):    zaznaczone = listbox_clients.curselection()    if zaznaczone:        klient = clients[zaznaczone[0]]        entry_name.delete(0, END)        entry_name.insert(0, klient.client_name)        entry_surname.delete(0, END)        entry_surname.insert(0, klient.client_illness)        entry_location.delete(0, END)        entry_location.insert(0, klient.client_location1)        form_mode.set("klient")        listbox_clients.bind("<Double-Button-1>", klikniecie_na_kliencie)def klikniecie_na_pracowniku(event):    zaznaczone = listbox_workers.curselection()    if zaznaczone:        pracownik = workers[zaznaczone[0]]        entry_name.delete(0, END)        entry_name.insert(0, pracownik.worker_name)        entry_surname.delete(0, END)        entry_surname.insert(0, pracownik.worker_pharmacy)        entry_location.delete(0, END)        entry_location.insert(0, pracownik.worker_location)        form_mode.set("pracownik")        listbox_workers.bind("<Double-Button-1>", klikniecie_na_pracowniku)entry_name.focus_set()root.mainloop()
