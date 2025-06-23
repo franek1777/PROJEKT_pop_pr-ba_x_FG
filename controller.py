@@ -30,9 +30,9 @@ class SportsFacility:
 
 
 class Client:
-    def __init__(self, name, illness, facility_location):
+    def __init__(self, name, client, facility_location):
         self.name = name
-        self.illness = illness
+        self.illness = client
         self.facility_location = facility_location
         self.coordinates = self.get_coordinates()
 
